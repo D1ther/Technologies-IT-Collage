@@ -33,7 +33,10 @@ int main()
         double number_1;
         double number_2;
         std::string operation;
-        
+
+        std::cout << "Оберіть операцію (+, -, *, /, q): ";
+        std::cin >> operation;
+
         if (operation == "q")
         {
             std::cout << "Пока-пока бр бр патапім 👋" << std::endl;
@@ -57,9 +60,6 @@ int main()
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             continue;
         }
-
-        std::cout << "Оберіть операцію (+, -, *, /, q): ";
-        std::cin >> operation;
 
         if (operation == "+")
         {
