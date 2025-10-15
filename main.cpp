@@ -7,7 +7,7 @@ struct Valute
 {
     std::string Name;
     std::string CharCode;
-    int Price;
+    double Price;
 };
 
 
@@ -64,7 +64,7 @@ int main()
         {
             std::string NameValute = "";
             std::string CharCodeValute = "";
-            int PriceValute = 0;
+            double PriceValute = 0;
             
             std::cout << "Вкажіть назву вашої крипти 😎" << std::endl;
             std::cin >> NameValute;
