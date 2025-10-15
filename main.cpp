@@ -1,138 +1,127 @@
 #include <iostream>
-#include <algorithm>
+#include <vector>
 
-int CheckArray(int array[], int size)
+double const DollarPrice = 41.75;
+
+struct Valute
 {
-    for (int num=0; num<size; num++)
-    {
-        if (array[num] == 0)
-        {
-            std::cout << "Йоу не круто робити щось з тим чого нема, заповни масив челік 😎\n" << std::endl;
-            return 0;
-        }
-    }
-    return 1;
+    std::string Name;
+    std::string CharCode;
+    int Price;
+};
+
+
+void ShowValuteDetail(Valute valute)
+{
+    std::cout << "Назва: " << valute.Name << std::endl;
+    std::cout << "Код: " << valute.CharCode << std::endl;
+    std::cout << "Ціна: " << valute.Price << "💲" << std::endl;
+    std::cout << "Ціна в гривнях: " << valute.Price * DollarPrice << "₴" << std::endl;
 }
 
-int InputArray(int array[], int size)
+void ShowValutes(const std::vector<Valute>& valutes)
 {
-    if (CheckArray(array, size))
+    if (valutes.empty())
     {
-        std::cout << "твій масив готовий, роби шо хоч 🙄\n" << std::endl;
-        return 0;
+        std::cout << "Ви бідний, у вас нема крипти! 😢" << std::endl;
+        return;
     }
-    std::cout << "Введіть " << size << " цілих чисел:" << std::endl;
-    for (int num=0; num<size; num++)
+
+    for (const auto& valute : valutes)
     {
-        std::cin >> array[num];
+        std::cout << valute.Name << " - " << valute.CharCode << " - " << valute.Price << "💲" << std::endl;
     }
-    return 0;
 }
 
-int ShowArray(int array[], int size)
+void AddValute(std::vector<Valute>& valutes, const Valute& newValute)
 {
-    if (!CheckArray(array, size))
-    {
-        return 0;
-    }
-    std::cout << "Йоу, от що у вас в масиві 🙄: ";
-    for (int num=0; num<size; num++)
-    {
-        std::cout << array[num] << " ";
-    }
-    std::cout << std::endl;
-    return 0;
-}
-
-int MaxElement(int array[], int size)
-{
-    if (!CheckArray(array, size))
-    {
-        return 0;
-    }
-    auto max_el = std::max_element(array, array + size);
-    std::cout << "Максимум 💯: " << *max_el << std::endl;
-    return 0;
-}
-
-int MinElement(int array[], int size)
-{
-    if (!CheckArray(array, size))
-    {
-        return 0;
-    }
-    auto min_el = std::min_element(array, array + size);
-    std::cout << "Мінімум 📉: " << *min_el << std::endl;
-    return 0;
-}
-
-int SortArray(int array[], int size)
-{
-    if (!CheckArray(array, size))
-    {
-        return 0;
-    }
-    std::sort(array, array + size);
-    ShowArray(array, size);
-    return 0;
-}
-
-int AverageElement(int array[], int size)
-{
-    if (!CheckArray(array, size))
-    {
-        return 0;
-    }
-    int sum = 0;
-    for (int num=0; num<size; num++)
-    {
-        sum += array[num];
-    }
-
-    std::cout << "Щось по середині +/-:\n(доречі учень знає анекдот про це)" << static_cast<double>(sum) / size << std::endl;
-    return 0;
+    valutes.push_back(newValute);
+    std::cout << "Криптульку додано успішно! ✅" << std::endl;
 }
 
 int main()
 {
-    int array[10] = {0};
-    int operation;
-    std::cout << "###### 🔥 Йоу твій масив на 10 елементів готовий 🔥 ######\n\n" << std::endl;
+    std::vector<Valute> valutes;
 
     while (true)
     {
-        std::cout << "1. Ввести цифри твого масиву 🔢\n2. Вивести ьазовий мінімум 📉\n3. Вивести шикарний максимум 💯\n4. Виведення +/- середини (учень знає анекдот про це) 😁\n5. Сортувати масив 🔀\n6. Вийти 😭" << std::endl;
+        std::cout << "\nОберіть дію з криптою 🔥\n" << std::endl;
+        std::cout << "1. Показати всі ваші криптульки 🤑" << std::endl;
+        std::cout << "2. Додати нову криптульку 🤩" << std::endl;
+        std::cout << "3. Вивести ціну криптульки 📊" << std::endl;
+        std::cout << "4. Вийти з програми 👋" << std::endl;
 
-        std::cout << "Що робити: ";
-        std::cin >> operation;
+        int choice = 0;
+        std::cin >> choice;
 
-        switch (operation)
+        switch (choice)
         {
+        case 1:
+            ShowValutes(valutes);
+            break;
         
-            case 1:
-                InputArray(array, 10);
-                break;
+        case 2:
+        {
+            std::string NameValute = "";
+            std::string CharCodeValute = "";
+            int PriceValute = 0;
             
-            case 2:
-                MinElement(array, 10);
+            std::cout << "Вкажіть назву вашої крипти 😎" << std::endl;
+            std::cin >> NameValute;
+            std::cout << "Вкажіть код вашої крипти 👨‍💻" << std::endl;
+            std::cin >> CharCodeValute;
+            std::cout << "Вкажіть ціну вашої крипти 💰" << std::endl;
+            std::cin >> PriceValute;
+
+            Valute newValute = {NameValute, CharCodeValute, PriceValute};
+            AddValute(valutes, newValute);
+
+            std::cout << "Кількість ваших криптульок 💲💲💲: " << valutes.size() << std::endl;
+            break;
+        }
+
+        case 3:
+        {
+            if (valutes.empty())
+            {
+                std::cout << "Ви бідний, у вас нема крипти! 😢" << std::endl;
                 break;
-            case 3:
-                MaxElement(array, 10);
+            }
+
+            std::string CharCodeValute = "";
+            std::cout << "Введіть код крипти, щоб взнати 😁: " << std::endl;
+            std::cin >> CharCodeValute;
+
+            bool found = false;
+            for (const auto& valute : valutes)
+            {
+                if (valute.CharCode == CharCodeValute)
+                {
+                    ShowValuteDetail(valute);
+                    found = true;
+                    break;
+                }
+
+            }
+
+            if (!found)
+            {
+                std::cout << "Криптульку з таким кодом не знайдено! 😢" << std::endl;
                 break;
-            case 4:
-                AverageElement(array, 10);
-                break;
-            case 5:
-                SortArray(array, 10);
-                break;
-            case 6:
-                std::cout << "ну пакеда 🙋‍♂️🙋‍♂️🙋‍♂️" << std::endl;
-                return 0;
-            default:
-                break;
+            }
+            
+            break;
+        }
+        
+        case 4:
+            std::cout << "До побачення! 👋" << std::endl;
+            return 0;
+        
+        default:
+            std::cout << "Невірний вибір! Спробуйте ще раз." << std::endl;
+            break;
         }
     }
-    
 
-
+    return 0;
 }
