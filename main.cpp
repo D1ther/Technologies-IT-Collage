@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include "simple-db.cpp"
 
 double const DollarPrice = 41.75;
 
@@ -8,6 +9,20 @@ struct Valute
     std::string Name;
     std::string CharCode;
     double Price;
+
+    void serialize(std::ofstream &out) const
+    {
+        SimpleDB::writeElement(out, Name);
+        SimpleDB::writeElement(out, CharCode);
+        SimpleDB::writeElement(out, Price);
+    }
+
+    void deserialize(std::ifstream &in)
+    {
+        SimpleDB::readElement(in, Name);
+        SimpleDB::readElement(in, CharCode);
+        SimpleDB::readElement(in, Price);
+    }
 };
 
 
@@ -36,12 +51,13 @@ void ShowValutes(const std::vector<Valute>& valutes)
 void AddValute(std::vector<Valute>& valutes, const Valute& newValute)
 {
     valutes.push_back(newValute);
+    SimpleDB::serialize(valutes);
     std::cout << "Криптульку додано успішно! ✅" << std::endl;
 }
 
 int main()
 {
-    std::vector<Valute> valutes;
+    std::vector<Valute> valutes = SimpleDB::load<Valute>();
 
     while (true)
     {
